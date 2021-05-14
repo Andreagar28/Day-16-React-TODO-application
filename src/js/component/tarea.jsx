@@ -1,13 +1,52 @@
-import React from "react";
+import React, { useState } from "react";
+import PropTypes from "prop-types";
 
-const Tarea = (props) => {
+const Tarea = props => {
+	const [modoEdit, setModoEdit] = useState(false);
+	const [editText, setEditText] = useState("");
 
-    return(
-        <div>
-            <div className="tarea">
-                <span>{props.tarea}</span><span>Editar</span><span>Borrar</span>
-            </div>
-        </div>
-    )
+	const editar = () => {
+		setModoEdit(true);
+	};
 
-}
+	const manejarEdit = event => {
+		setEditText(event.target.value);
+	};
+
+	const submitEdit = event => {
+		event.preventDefaul();
+		props.editar(props.id, editText);
+		setEditText("");
+		setModoEdit(false);
+	};
+
+	const borrarTarea = () => {
+		props.borrar(props.id);
+	};
+
+	return (
+		<div>
+			{!modoEdit ? (
+				<div className="tarea">
+					<span>{props.tarea}</span>
+					<span onClick={editar}>Editar</span>
+					<span onClick={borrarTarea}>Borrar</span>
+				</div>
+			) : (
+				<form className="formEdit" onSubmit={submitEdit}>
+					<input value={editText} onChange={manejarEdit} />{" "}
+					<button>Guardar</button>
+				</form>
+			)}
+		</div>
+	);
+};
+export default Tarea;
+
+Tarea.propTypes = {
+	value: PropTypes.string,
+	editar: PropTypes.string,
+	id: PropTypes.string,
+	tarea: PropTypes.string,
+	borrar: PropTypes.string
+};
