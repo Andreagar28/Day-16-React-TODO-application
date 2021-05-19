@@ -1,10 +1,9 @@
-import React from "react";
-import TareaForm from "./tareaform.jsx";
-import Tarea from "./tarea.jsx";
-import PropTypes from "prop-types";
+import React, { useState } from "react";
+import TareaForm from "../componentes/TareaForm.jsx";
+import Tarea from "../componentes/Tarea.jsx";
 
 function Home() {
-	const [listaTareas, setListaTareas] = [];
+	const [listaTareas, setListaTareas] = useState([]);
 
 	const nuevaTarea = tarea => {
 		setListaTareas([tarea, ...listaTareas]);
@@ -20,8 +19,10 @@ function Home() {
 			if (index === id) {
 				e = tarea;
 			}
+
 			return e;
 		});
+
 		setListaTareas(listaActualizada);
 	};
 
@@ -32,7 +33,6 @@ function Home() {
 			<div className="lista">
 				{listaTareas.map((e, index) => (
 					<Tarea
-						key={index}
 						tarea={e}
 						borrar={borrar}
 						id={index}
@@ -43,4 +43,5 @@ function Home() {
 		</div>
 	);
 }
+
 export default Home;
